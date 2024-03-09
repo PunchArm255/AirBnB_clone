@@ -1,11 +1,4 @@
 #!/usr/bin/python3
-"""
-class BaseModel that defines all common
-attributes/methods for other classes
-take care of the initialization, serialization and
-deserialization of your future instances
-"""
-
 from uuid import uuid4
 from datetime import datetime
 
@@ -13,16 +6,44 @@ from datetime import datetime
 class BaseModel:
     """
     BaseModel class
+
+    class BaseModel that defines all common
+    attributes/methods for other classes
+    take care of the initialization, serialization and
+    deserialization of your future instances
+
+    Methods:
+        __init__(*args, **kwargs): Initializes the BaseModel instance.
+        __str__(): Returns a string representation of the BaseModel instance.
+        save(): Updates the public instance attribute 'updated_at'
+          with the current datetime.
+        to_dict(): Returns a dictionary containing all keys/values
+          of the instance's __dict__.
+
+    Example Usage:
+        >>> base_model = BaseModel()
+        >>> print(base_model)
+            [BaseModel] (unique_id) {'id': 'unique_id',
+              'created_at': datetime, 'updated_at': datetime}
+        >>> base_model.save()
+        >>> print(base_model.updated_at)
+            datetime
+        >>> base_model_dict = base_model.to_dict()
+        >>> print(base_model_dict)
+            {'id': 'unique_id', 'created_at': 'datetime',
+              'updated_at': 'datetime', '__class__': 'BaseModel'}
     """
+
     def __init__(self, *args, **kwargs):
         """Initialization of the BaseModel"""
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
-                    if key == "created_at" or key == "updated_at":
-                        value = datetime.strptime(
+                    if key in ["created_at", "updated_at"]:
+                        self.__dict__[key] = datetime.strptime(
                             value, "%Y-%m-%dT%H:%M:%S.%f")
-                    setattr(self, key, value)
+                    else:
+                        self.__dict__[key] = value
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
