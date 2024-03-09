@@ -29,5 +29,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(dict_obj["created_at"], str)
         self.assertIsInstance(dict_obj["updated_at"], str)
 
+
 if __name__ == "__main__":
     unittest.main()
