@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 from datetime import datetime
 import uuid
 
+
 class TestBaseModel(unittest.TestCase):
     """Test cases for the BaseModel class"""
 
@@ -14,11 +15,11 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model_no_args.created_at, datetime)
         self.assertIsInstance(model_no_args.updated_at, datetime)
 
-
     def test_str(self):
         """Test the string representation of BaseModel"""
         model_default = BaseModel()
-        expected_default_str = "[BaseModel] ({}) {}".format(model_default.id, model_default.__dict__)
+        expected_default_str = "[BaseModel] ({}) {}".format(
+            model_default.id, model_default.__dict__)
         self.assertEqual(str(model_default), expected_default_str)
 
     def test_save(self):
