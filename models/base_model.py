@@ -9,7 +9,6 @@ deserialization of your future instances
 from uuid import uuid4
 from datetime import datetime
 
-#from models import storage
 
 class BaseModel:
     """
@@ -21,13 +20,13 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key != "__class__":
                     if key == "created_at" or key == "updated_at":
-                        value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                        value = datetime.strptime(
+                            value, "%Y-%m-%dT%H:%M:%S.%f")
                     setattr(self, key, value)
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            #models.storage.new(self)
 
     def __str__(self):
         """str representation of the BaseModel"""
@@ -39,7 +38,6 @@ class BaseModel:
         with the current datetime
         """
         self.updated_at = datetime.now()
-        #models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values
@@ -50,9 +48,3 @@ class BaseModel:
         todict['created_at'] = self.created_at.isoformat()
         todict['updated_at'] = self.updated_at.isoformat()
         return todict
-
-    #def delete(self):
-    #    """delete the current instance from the storage
-    #    """
-    #    models.storage.delete(self)
-
