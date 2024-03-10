@@ -14,7 +14,7 @@ class HBNBCommand(cmd.Cmd):
         Class for the command line interface.
     """
     prompt = '(hbnb) '
-    valid_classes = ["BaseModel"]
+    valid_classes = ["BaseModel", "User"]
 
     def do_quit(self, arg):
         """
