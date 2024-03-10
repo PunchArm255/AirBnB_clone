@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" 
+"""
     Console module for AirBnB
     This module provides a command line interface for AirBnB
 """
@@ -7,7 +7,7 @@ import cmd
 
 
 class HBNBCommand(cmd.Cmd):
-    """ 
+    """
         Class for the command line interface.
     """
     prompt = '(hbnb) '
