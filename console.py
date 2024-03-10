@@ -15,6 +15,10 @@ class HBNBCommand(cmd.Cmd):
         """EOF command to exit the program."""
         return True
 
+    def emptyline(self):
+        """Do nothing on empty input."""
+        pass
+
     def do_help(self, arg):
         """Help command to display help information."""
         cmd.Cmd.do_help(self, arg)
