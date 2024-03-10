@@ -9,6 +9,7 @@ from datetime import datetime
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
+
 class TestFileStorage_instantiation(unittest.TestCase):
     """Unittests for testing instantiation of the FileStorage class."""
 
@@ -28,9 +29,10 @@ class TestFileStorage_instantiation(unittest.TestCase):
     def test_storage_initializes(self):
         self.assertEqual(type(models.storage), FileStorage)
 
+
 class TestFileStorage_methods(unittest.TestCase):
     """Unittests for testing methods of the FileStorage class."""
-    
+
     def test_all(self):
         self.assertEqual(dict, type(models.storage.all()))
 

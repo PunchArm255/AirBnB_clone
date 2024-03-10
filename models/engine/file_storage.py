@@ -3,26 +3,30 @@ import json
 from models.base_model import BaseModel
 # from models.base_model import BaseModel #avoid circular
 
+
 class FileStorage:
     """
-    A class that provides methods for storing and retrieving objects in a JSON file.
-    This class provides a simple key-value store where the key is the object's class
+    A class that provides methods for storing and
+     retrieving objects in a JSON file.
+    This class provides a simple key-value store
+     where the key is the object's class
     name and its id, and the value is the object itself.
 
     Attributes:
-        __file_path (str): The path to the JSON file that will be used to store the
-            objects.
-        __objects (dict): A dictionary that stores the objects. The keys are the
-            objects' class names and ids, and the values are the objects.
+        __file_path (str): The path to the JSON file that
+            will be used to store the objects.
+        __objects (dict): A dictionary that stores the objects.
+            The keys are the objects' class names and ids,
+            and the values are the objects.
 
     Methods:
         all(self): Returns a copy of the dictionary __objects.
         new(self, obj): Adds the obj to the __objects dictionary, using the key
             <obj class name>.id.
-        save(self): Serializes the __objects dictionary to the JSON file located
-            at __file_path.
-        reload(self): Deserializes the JSON file located at __file_path and loads it
-            into the __objects dictionary.
+        save(self): Serializes the __objects dictionary to the JSON file
+            located at __file_path.
+        reload(self): Deserializes the JSON file located at __file_path and
+            loads it into the __objects dictionary.
     """
     __file_path = "file.json"
     __objects = {}
@@ -46,7 +50,8 @@ class FileStorage:
 
     def save(self):
         """
-        Serializes the __objects dictionary to a JSON file located at __file_path.
+        Serializes the __objects dictionary to a JSON file
+            located at __file_path.
         """
         serialized_objects = {}
         for key, value in self.__objects.items():
@@ -56,9 +61,10 @@ class FileStorage:
 
     def reload(self):
         """
-        Deserializes the JSON file located at __file_path and loads it into the
-        __objects dictionary. If the file does not exist, the __objects dictionary
-        is left unchanged.
+        Deserializes the JSON file located at __file_path and
+            loads it into the __objects dictionary.
+        If the file does not exist,
+            the __objects dictionary is left unchanged.
         """
         try:
             with open(self.__file_path, 'r') as file:
@@ -69,4 +75,3 @@ class FileStorage:
                     self.__objects[key] = obj
         except FileNotFoundError:
             pass
-

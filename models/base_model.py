@@ -3,6 +3,7 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """
     BaseModel class
@@ -49,7 +50,6 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             models.storage.new(self)
-
 
     def __str__(self):
         """str representation of the BaseModel"""
