@@ -8,6 +8,7 @@ import shlex
 from models.base_model import BaseModel
 from models import storage
 
+
 class HBNBCommand(cmd.Cmd):
     """
         Class for the command line interface.
@@ -49,8 +50,8 @@ class HBNBCommand(cmd.Cmd):
         elif commands[0] not in self.valid_classes:
             print("** class doesn't exist **")
         else:
-            new_instance = BaseModel()
-            new_instance.save()
+            new_instance = eval(f"{commands[0]}()")
+            storage.save()
             print(new_instance.id)
 
     def do_show(self, arg):
@@ -153,6 +154,7 @@ class HBNBCommand(cmd.Cmd):
                 setattr(obj, attr_name, attr_value)
 
                 obj.save()
+
 
 if __name__ == '__main__':
     """Start the command line interface."""
