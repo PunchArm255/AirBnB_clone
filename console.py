@@ -5,7 +5,6 @@ import cmd
 
 class HBNBCommand(cmd.Cmd):
     """Class for the command line interface."""
-    intro = 'Type help or ? to list commands.\n'
     prompt = '(hbnb) '
 
     def do_quit(self, arg):
@@ -15,10 +14,6 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, arg):
         """EOF command to exit the program."""
         return True
-
-    def emptyline(self):
-        """Do nothing on empty input."""
-        pass
 
     def do_help(self, arg):
         """Help command to display help information."""
