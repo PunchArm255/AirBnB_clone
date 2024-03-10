@@ -1,22 +1,33 @@
 #!/usr/bin/python3
-""" Console module for AirBnB """
+""" 
+    Console module for AirBnB
+    This module provides a command line interface for AirBnB
+"""
 import cmd
 
 
 class HBNBCommand(cmd.Cmd):
-    """Class for the command line interface."""
+    """ 
+        Class for the command line interface.
+    """
     prompt = '(hbnb) '
 
     def do_quit(self, arg):
-        """Quit command to exit the program."""
+        """
+            Quit command to exit the program
+        """
         return True
 
     def do_EOF(self, arg):
-        """EOF command to exit the program."""
+        """
+            Quit command to exit the program
+        """
         return True
 
     def emptyline(self):
-        """Do nothing on empty input."""
+        """
+            Do nothing on empty input.
+        """
         pass
 
     def do_help(self, arg):
