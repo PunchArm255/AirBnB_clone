@@ -1,11 +1,4 @@
 #!/usr/bin/python3
-"""
-BaseModel module
-
-This module defines the BaseModel class, which acts as a base class for
-other models. It provides basic initialization, serialization and
-deserialization methods for all models.
-"""
 from uuid import uuid4
 from datetime import datetime
 import models
@@ -15,9 +8,10 @@ class BaseModel:
     """
     BaseModel class
 
-    This class defines all common attributes/methods for other classes.
-    It takes care of the initialization, serialization and
-    deserialization of your future instances.
+    class BaseModel that defines all common
+    attributes/methods for other classes
+    take care of the initialization, serialization and
+    deserialization of your future instances
 
     Methods:
         __init__(*args, **kwargs): Initializes the BaseModel instance.
@@ -43,16 +37,18 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Initialization of the BaseModel"""
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
-                if key in ["created_at", "updated_at"]:
-                    self.__dict__[key] = datetime.now()
-                elif key != "__class__":
-                    self.__dict__[key] = value
+                if key != "__class__":
+                    if key in ["created_at", "updated_at"]:
+                        self.__dict__[key] = datetime.strptime(
+                            value, "%Y-%m-%dT%H:%M:%S.%f")
+                    else:
+                        self.__dict__[key] = value
         else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def __str__(self):
@@ -71,7 +67,7 @@ class BaseModel:
         """returns a dictionary containing all keys/values
         of __dict__ of the instance
         """
-        todict = self.__dict__
+        todict = self.__dict__.copy()
         todict['__class__'] = self.__class__.__name__
         todict['created_at'] = self.created_at.isoformat()
         todict['updated_at'] = self.updated_at.isoformat()
