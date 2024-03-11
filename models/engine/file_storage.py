@@ -8,7 +8,7 @@
 import json
 import os
 from models.base_model import BaseModel
-# from models.user import User #avoid unused imports
+from models.user import User
 # from models.base_model import BaseModel #avoid circular
 
 
@@ -75,12 +75,15 @@ class FileStorage:
         If the file does not exist,
             the __objects dictionary is left unchanged.
         """
-        try:
-            with open(self.__file_path, encoding='utf-8') as f:
-                obj_dict = json.load(f)
-                for obj_item in obj_dict.values():
-                    class_name = obj_item["__class__"]
-                    del obj_item["__class__"]
-                    self.new(eval(class_name)(**obj_item))
-        except FileNotFoundError:
-            return
+        filepath = FileStorage.__file_path
+        data = FileStorage.__objects
+        if os.path.exists(filepath):
+            try:
+                with open(filepath) as f:
+                    for key, value in json.load(f).items():
+                        if "BaseModel" in key:
+                            data[key] = BaseModel(**value)
+                        if "User" in key:
+                            data[key] = User(**value)
+            except Exception:
+                pass
