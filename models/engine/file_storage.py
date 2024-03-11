@@ -7,6 +7,7 @@
 """
 import json
 import os
+from models.base_model import BaseModel
 # from models.user import User #avoid unused imports
 # from models.base_model import BaseModel #avoid circular
 
