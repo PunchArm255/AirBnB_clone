@@ -1,4 +1,11 @@
 #!/usr/bin/python3
+"""
+BaseModel module
+
+This module defines the BaseModel class, which acts as a base class for
+other models. It provides basic initialization, serialization and
+deserialization methods for all models.
+"""
 from uuid import uuid4
 from datetime import datetime
 import models
@@ -8,10 +15,9 @@ class BaseModel:
     """
     BaseModel class
 
-    class BaseModel that defines all common
-    attributes/methods for other classes
-    take care of the initialization, serialization and
-    deserialization of your future instances
+    This class defines all common attributes/methods for other classes.
+    It takes care of the initialization, serialization and
+    deserialization of your future instances.
 
     Methods:
         __init__(*args, **kwargs): Initializes the BaseModel instance.
