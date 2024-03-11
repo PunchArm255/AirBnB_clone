@@ -104,19 +104,21 @@ class HBNBCommand(cmd.Cmd):
         Usage: <User>.all()
                 <User>.show()
         """
+        objl = []
         objects = storage.all()
 
         commands = shlex.split(arg)
 
         if len(commands) == 0:
             for key, value in objects.items():
-                print(str(value))
+                objl.append(str(value))
         elif commands[0] not in self.valid_classes:
             print("** class doesn't exist **")
         else:
             for key, value in objects.items():
                 if key.split('.')[0] == commands[0]:
-                    print(str(value))
+                    objl.append(str(value))
+        print(objl)
 
     def do_update(self, arg):
         """
