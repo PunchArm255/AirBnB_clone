@@ -43,7 +43,7 @@ class FileStorage:
         """
         Returns a copy of the __objects dictionary.
         """
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
@@ -53,19 +53,19 @@ class FileStorage:
         Args:
             obj: The object to be added.
         """
-        key = f"{obj.__class__.__name__}.{obj.id}"
-        self.__objects[key] = obj
+        if obj is not None:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            self.__objects[key] = obj
 
     def save(self):
         """
         Serializes the __objects dictionary to a JSON file
             located at __file_path.
         """
-        serialized_objects = {}
-        for key, value in self.__objects.items():
-            serialized_objects[key] = value.to_dict()
-        with open(self.__file_path, 'w', encoding='utf-8') as file:
-            json.dump(serialized_objects, file)
+        odict = FileStorage.__objects
+        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
+        with open(FileStorage.__file_path, "w") as f:
+            json.dump(objdict, f)
 
     def reload(self):
         """
@@ -74,10 +74,12 @@ class FileStorage:
         If the file does not exist,
             the __objects dictionary is left unchanged.
         """
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r', encoding='utf-8') as file:
-                deserialized_objects = json.load(file)
-                for key, value in deserialized_objects.items():
-                    class_name, obj_id = key.split('.')
-                    obj = eval(class_name)(**value)
-                    self.__objects[key] = obj
+        try:
+            with open(self.__file_path, encoding='utf-8') as f:
+                obj_dict = json.load(f)
+                for obj_item in obj_dict.values():
+                    class_name = obj_item["__class__"]
+                    del obj_item["__class__"]
+                    self.new(eval(class_name)(**obj_item))
+        except FileNotFoundError:
+            return
