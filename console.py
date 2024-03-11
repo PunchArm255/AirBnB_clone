@@ -118,7 +118,8 @@ class HBNBCommand(cmd.Cmd):
             for key, value in objects.items():
                 if key.split('.')[0] == commands[0]:
                     objl.append(str(value))
-        print(objl)
+        if objl:
+            print(objl)
 
     def do_update(self, arg):
         """
