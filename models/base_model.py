@@ -43,6 +43,9 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Initialization of the BaseModel"""
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
                 if key in ["created_at", "updated_at"]:
@@ -50,9 +53,6 @@ class BaseModel:
                 elif key != "__class__":
                     self.__dict__[key] = value
         else:
-            self.id = str(uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def __str__(self):
@@ -71,7 +71,7 @@ class BaseModel:
         """returns a dictionary containing all keys/values
         of __dict__ of the instance
         """
-        todict = self.__dict__.copy()
+        todict = self.__dict__
         todict['__class__'] = self.__class__.__name__
         todict['created_at'] = self.created_at.isoformat()
         todict['updated_at'] = self.updated_at.isoformat()

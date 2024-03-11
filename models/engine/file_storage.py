@@ -43,7 +43,7 @@ class FileStorage:
         """
         Returns a copy of the __objects dictionary.
         """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
@@ -53,19 +53,20 @@ class FileStorage:
         Args:
             obj: The object to be added.
         """
-        if obj is not None:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[key] = obj
+        key = f"{obj.__class__.__name__}.{obj.id}"
+        self.__objects[key] = obj
 
     def save(self):
         """
         Serializes the __objects dictionary to a JSON file
             located at __file_path.
         """
-        odict = FileStorage.__objects
-        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
-        with open(FileStorage.__file_path, "w") as f:
-            json.dump(objdict, f)
+        filepath = self.__file_path
+        data = dict(self.__objects)
+        for key, value in data.items():
+            data[key] = value.to_dict()
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(data, f)
 
     def reload(self):
         """
