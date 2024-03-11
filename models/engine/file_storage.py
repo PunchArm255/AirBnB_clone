@@ -1,18 +1,23 @@
 #!/usr/bin/python3
+"""
+    This module defines the FileStorage class,
+        which provides mechanisms for serializing
+        and deserializing objects to and from a
+        JSON file..
+"""
 import json
 import os
-from models.base_model import BaseModel
-from models.user import user
+# from models.user import User #avoid unused imports
 # from models.base_model import BaseModel #avoid circular
 
 
 class FileStorage:
     """
     A class that provides methods for storing and
-     retrieving objects in a JSON file.
+        retrieving objects in a JSON file.
     This class provides a simple key-value store
-     where the key is the object's class
-    name and its id, and the value is the object itself.
+        where the key is the object's class
+        name and its id, and the value is the object itself.
 
     Attributes:
         __file_path (str): The path to the JSON file that
@@ -37,7 +42,7 @@ class FileStorage:
         """
         Returns a copy of the __objects dictionary.
         """
-        return self.__objects.copy()
+        return self.__objects
 
     def new(self, obj):
         """
@@ -47,7 +52,7 @@ class FileStorage:
         Args:
             obj: The object to be added.
         """
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        key = f"{obj.__class__.__name__}.{obj.id}"
         self.__objects[key] = obj
 
     def save(self):
@@ -58,7 +63,7 @@ class FileStorage:
         serialized_objects = {}
         for key, value in self.__objects.items():
             serialized_objects[key] = value.to_dict()
-        with open(self.__file_path, 'w') as file:
+        with open(self.__file_path, 'w', encoding='utf-8') as file:
             json.dump(serialized_objects, file)
 
     def reload(self):
@@ -68,12 +73,10 @@ class FileStorage:
         If the file does not exist,
             the __objects dictionary is left unchanged.
         """
-        try:
-            with open(self.__file_path, 'r') as file:
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, 'r', encoding='utf-8') as file:
                 deserialized_objects = json.load(file)
                 for key, value in deserialized_objects.items():
                     class_name, obj_id = key.split('.')
                     obj = eval(class_name)(**value)
                     self.__objects[key] = obj
-        except FileNotFoundError:
-            pass
